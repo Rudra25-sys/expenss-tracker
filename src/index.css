@@ -279,9 +279,6 @@ table button:hover {
   border: 1px solid #ccc;
 }
 
-/* ===========================
-   Tablet
-=========================== */
 @media (max-width: 992px) {
 
   .app {
@@ -390,4 +387,88 @@ table button:hover {
     padding: 15px;
   }
 
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.hero {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 50px;
+  background: linear-gradient(135deg, #4CAF50, #2E7D32);
+  color: white;
+}
+
+.hero-content {
+  max-width: 500px;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+.primary-btn {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 8px;
+  background: white;
+  color: #2E7D32;
+  font-size: 18px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.primary-btn:hover {
+  background: #f5f5f5;
+  transform: translateY(-2px);
+}
+
+.hero-image img {
+  width: 350px;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 60px;
+  background: #f8f9fa;
+}
+
+.feature-card {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+}
+
+.feature-card h3 {
+  margin-bottom: 15px;
+  color: #2E7D32;
+}
+
+.footer {
+  text-align: center;
+  padding: 20px;
+  background: #2E7D32;
+  color: white;
 }
