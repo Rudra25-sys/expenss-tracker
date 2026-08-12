@@ -1,7 +1,6 @@
 function Home({ setPage }) {
   return (
     <>
-      {/* Hero Section */}
       <section className="hero">
         <div className="hero-content">
           <h1>💰 Money Tracker</h1>

@@ -8,12 +8,17 @@ function Register({ setPage }) {
   });
 
   const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    setUser({
+      ...user,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleRegister = () => {
-    let users = JSON.parse(localStorage.getItem("users")) || [];
+    // Get existing users from localStorage
+    const users = JSON.parse(localStorage.getItem("users")) || [];
 
+    // Check if email already exists
     const exists = users.find((u) => u.email === user.email);
 
     if (exists) {
@@ -21,7 +26,10 @@ function Register({ setPage }) {
       return;
     }
 
+    // Add new user
     users.push(user);
+
+    // Store updated users in localStorage
     localStorage.setItem("users", JSON.stringify(users));
 
     alert("Registration Successful");
@@ -36,6 +44,7 @@ function Register({ setPage }) {
         type="text"
         name="name"
         placeholder="Name"
+        value={user.name}
         onChange={handleChange}
       />
 
@@ -43,6 +52,7 @@ function Register({ setPage }) {
         type="email"
         name="email"
         placeholder="Email"
+        value={user.email}
         onChange={handleChange}
       />
 
@@ -50,6 +60,7 @@ function Register({ setPage }) {
         type="password"
         name="password"
         placeholder="Password"
+        value={user.password}
         onChange={handleChange}
       />
 
