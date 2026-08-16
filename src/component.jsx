@@ -2,13 +2,13 @@ import { useState } from "react";
 
 const Categories = () => {
   const [categories, setCategories] = useState([
-    { id: 1, name: "Salary", type: "Income", color: "#28a745" },
-    { id: 2, name: "Food", type: "Expense", color: "#dc3545" },
+    { id: 1, name: "Salary", type: "Income", amount: 20000 },
+    { id: 2, name: "Food", type: "Expense", amount: 5000 },
   ]);
 
   const [name, setName] = useState("");
   const [type, setType] = useState("Expense");
-  const [color, setColor] = useState("#0d6efd");
+  const [amount, setAmount] = useState(0);
 
   const addCategory = (e) => {
     e.preventDefault();
@@ -19,7 +19,7 @@ const Categories = () => {
       id: Date.now(),
       name,
       type,
-      color,
+      amount,
     };
 
     setCategories([...categories, newCategory]);
@@ -83,9 +83,10 @@ const Categories = () => {
           <label>Color</label>
           <br />
           <input
-            type="color"
-            value={color}
-            onChange={(e) => setColor(e.target.value)}
+            type="number"
+            placeholder="Enter amount"
+            value={amount}
+            onChange={(e) => setAmount(Number(e.target.value))}
           />
         </div>
 

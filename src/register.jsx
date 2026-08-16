@@ -2,7 +2,7 @@ import { useState } from "react";
 
 function Register({ setPage }) {
   const [user, setUser] = useState({
-    name: "",
+    username: "",
     email: "",
     password: "",
   });
@@ -15,25 +15,22 @@ function Register({ setPage }) {
   };
 
   const handleRegister = () => {
-    // Get existing users from localStorage
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-
-    // Check if email already exists
-    const exists = users.find((u) => u.email === user.email);
-
-    if (exists) {
-      alert("User already exists");
-      return;
-    }
-
-    // Add new user
-    users.push(user);
-
-    // Store updated users in localStorage
-    localStorage.setItem("users", JSON.stringify(users));
-
-    alert("Registration Successful");
-    setPage("login");
+    fetch("http://localhost:5000/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        alert("Registration Successful");
+        setPage("login");
+      })
+      .catch((error) => {
+        console.error("Registration error:", error);
+      });
   };
 
   return (
@@ -42,9 +39,9 @@ function Register({ setPage }) {
 
       <input
         type="text"
-        name="name"
+        name="username"
         placeholder="Name"
-        value={user.name}
+        value={user.username}
         onChange={handleChange}
       />
 

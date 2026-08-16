@@ -6,6 +6,7 @@ import Expenses from "./expenss";
 import Categories from "./component";
 import Home from "./home";
 import Login from "./login";
+import Report from "./report";
 import Register from "./register";
 function App() {
   const [page, setPage] = useState("home");
@@ -24,7 +25,7 @@ function App() {
             <li onClick={() => setPage("expenses")}>💸 Expenses</li>
             <li onClick={() => setPage("income")}>💰 Income</li>
             <li onClick={() => setPage("categories")}>📂 Categories</li>
-            <li>📊 Reports</li>
+            <li onClick={()=> setPage("report")}>📊 Reports</li>
             <li>⚙️ Settings</li>
           </ul>
         </aside>
@@ -38,6 +39,7 @@ function App() {
         {page === "categories" && <Categories />}
         {page === "login" && <Login setPage={setPage} />}
         {page === "register" && <Register setPage={setPage} />}
+        {page==="report"&& <Report setPage={setPage}/>}
       </main>
 
     </div>
