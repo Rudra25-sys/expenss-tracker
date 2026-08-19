@@ -1,0 +1,363 @@
+/* =========================================================
+   INCOME CONTAINER
+========================================================= */
+
+.income-container {
+  padding: 30px;
+  background: linear-gradient(135deg, #f4f6f9, #eef2f5);
+  min-height: 100vh;
+}
+
+.income-container h2 {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 30px;
+  color: #222;
+  font-weight: bold;
+}
+
+/* =========================================================
+   INCOME TOTAL CARD
+========================================================= */
+
+.income-total-card {
+  padding: 25px 30px;
+  border-radius: 14px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  animation: slideDown 0.5s ease-out;
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  color: #fff;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.income-total-card h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+.income-total-card h1 {
+  margin: 0;
+  font-size: 36px;
+  font-weight: bold;
+}
+
+/* =========================================================
+   INCOME CATEGORY LIST
+========================================================= */
+
+.category-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.income-category-tag {
+  background: #fff;
+  padding: 16px 18px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border-left: 4px solid #16a34a;
+}
+
+.income-category-tag:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.income-category-tag span {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.income-category-tag strong {
+  font-size: 16px;
+  color: #16a34a;
+  font-weight: bold;
+}
+
+/* =========================================================
+   ADD INCOME BUTTON
+========================================================= */
+
+.add-income-btn {
+  width: 100%;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, #1677ff, #0b5ed7);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 25px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(22, 119, 255, 0.3);
+}
+
+.add-income-btn:hover {
+  background: linear-gradient(135deg, #0b5ed7, #084298);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(22, 119, 255, 0.4);
+}
+
+.add-income-btn:active {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   INCOME LIST
+========================================================= */
+
+.income-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* =========================================================
+   INCOME ITEM
+========================================================= */
+
+.income-item {
+  background: #fff;
+  border-radius: 12px;
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border-left: 5px solid #16a34a;
+}
+
+.income-item:hover {
+  transform: translateX(4px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  border-color: #16a34a;
+}
+
+/* =========================================================
+   INCOME DETAILS
+========================================================= */
+
+.income-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.income-details h4 {
+  margin: 0;
+  font-size: 16px;
+  color: #222;
+  font-weight: bold;
+}
+
+.income-category {
+  font-size: 13px;
+  color: #777;
+  font-weight: 500;
+  display: inline-block;
+  background: #f0f0f0;
+  padding: 4px 10px;
+  border-radius: 20px;
+  width: fit-content;
+}
+
+.income-date {
+  font-size: 12px;
+  color: #aaa;
+  font-weight: 400;
+}
+
+/* =========================================================
+   INCOME AMOUNT
+========================================================= */
+
+.income-amount {
+  font-size: 20px;
+  font-weight: bold;
+  color: #16a34a;
+  white-space: nowrap;
+  margin-left: 15px;
+}
+
+/* =========================================================
+   RESPONSIVE - TABLET
+========================================================= */
+
+@media (max-width: 992px) {
+  .category-list {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .income-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .income-amount {
+    margin-left: 0;
+    align-self: flex-start;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+  .income-container {
+    padding: 20px;
+  }
+
+  .income-container h2 {
+    font-size: 26px;
+    margin-bottom: 20px;
+  }
+
+  .income-total-card {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .income-total-card h1 {
+    font-size: 28px;
+  }
+
+  .category-list {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .income-category-tag {
+    padding: 12px 14px;
+  }
+
+  .income-item {
+    padding: 14px 16px;
+    gap: 10px;
+  }
+
+  .income-details h4 {
+    font-size: 15px;
+  }
+
+  .income-amount {
+    font-size: 16px;
+  }
+
+  .add-income-btn {
+    padding: 12px;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE - SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+  .income-container {
+    padding: 15px;
+  }
+
+  .income-container h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+
+  .income-total-card {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  .income-total-card h3 {
+    font-size: 13px;
+  }
+
+  .income-total-card h1 {
+    font-size: 24px;
+  }
+
+  .category-list {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .income-category-tag {
+    padding: 10px 12px;
+  }
+
+  .income-category-tag span {
+    font-size: 13px;
+  }
+
+  .income-category-tag strong {
+    font-size: 14px;
+  }
+
+  .income-item {
+    padding: 12px 14px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .income-details h4 {
+    font-size: 14px;
+  }
+
+  .income-category {
+    font-size: 12px;
+    padding: 3px 8px;
+  }
+
+  .income-date {
+    font-size: 11px;
+  }
+
+  .income-amount {
+    font-size: 15px;
+  }
+
+  .add-income-btn {
+    padding: 11px;
+    margin-bottom: 15px;
+    font-size: 13px;
+  }
+}

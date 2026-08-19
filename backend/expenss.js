@@ -1,45 +1,81 @@
 const express = require("express");
-const fs = require("fs");
+const db = require("./db");
 
 const router = express.Router();
 
-const DB_FILE = "./db.json";
 
-function getDB() {
-  return JSON.parse(fs.readFileSync(DB_FILE, "utf8"));
-}
-
-function saveDB(db) {
-  fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2));
-}
-
-// GET all expenses
+// =============================
+// GET ALL EXPENSES
+// =============================
 router.get("/", (req, res) => {
-  const db = getDB();
 
-  res.json(db.expenses);
+  const sql = `
+    SELECT
+      id,
+      title,
+      amount,
+      category,
+      DATE_FORMAT(date, '%Y-%m-%d') AS date
+    FROM expenses
+    ORDER BY date DESC
+  `;
+
+  db.query(sql, (err, results) => {
+
+    if (err) {
+      console.error(err);
+
+      return res.status(500).json({
+        message: "Error fetching expenses"
+      });
+    }
+
+    res.json(results);
+  });
 });
 
-// GET expense by ID
+
+// =============================
+// GET EXPENSE BY ID
+// =============================
 router.get("/:id", (req, res) => {
-  const db = getDB();
 
-  const expense = db.expenses.find(
-    item => item.id === Number(req.params.id)
-  );
+  const sql = `
+    SELECT
+      id,
+      title,
+      amount,
+      category,
+      DATE_FORMAT(date, '%Y-%m-%d') AS date
+    FROM expenses
+    WHERE id = ?
+  `;
 
-  if (!expense) {
-    return res.status(404).json({
-      message: "Expense not found"
-    });
-  }
+  db.query(sql, [req.params.id], (err, results) => {
 
-  res.json(expense);
+    if (err) {
+      console.error(err);
+
+      return res.status(500).json({
+        message: "Database error"
+      });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({
+        message: "Expense not found"
+      });
+    }
+
+    res.json(results[0]);
+  });
 });
 
-// ADD expense
+
+// =============================
+// ADD EXPENSE
+// =============================
 router.post("/", (req, res) => {
-  const db = getDB();
 
   const {
     title,
@@ -48,74 +84,139 @@ router.post("/", (req, res) => {
     date
   } = req.body;
 
-  if (!title || !amount || !category || !date) {
+  if (!title || !amount || !date) {
     return res.status(400).json({
-      message: "title, amount, category and date are required"
+      message: "title, amount and date are required"
     });
   }
 
-  const newExpense = {
-    id: Date.now(),
+  const categoryName = category ? String(category).trim() : "General";
+
+  const sql = `
+    INSERT INTO expenses
+    (title, amount, category, date)
+    VALUES (?, ?, ?, ?)
+  `;
+
+  db.query(
+    sql,
+    [
+      title,
+      Number(amount),
+      categoryName,
+      date
+    ],
+    (err, result) => {
+
+      if (err) {
+        console.error(err);
+
+        return res.status(500).json({
+          message: "Error adding expense"
+        });
+      }
+
+      res.status(201).json({
+        id: result.insertId,
+        title,
+        amount: Number(amount),
+        category: categoryName,
+        date
+      });
+    }
+  );
+});
+
+
+// =============================
+// UPDATE EXPENSE
+// =============================
+router.put("/:id", (req, res) => {
+
+  const {
     title,
-    amount: Number(amount),
+    amount,
     category,
     date
-  };
+  } = req.body;
 
-  db.expenses.push(newExpense);
+  const categoryName = category ? String(category).trim() : "General";
 
-  saveDB(db);
+  const sql = `
+    UPDATE expenses
+    SET
+      title = ?,
+      amount = ?,
+      category = ?,
+      date = ?
+    WHERE id = ?
+  `;
 
-  res.status(201).json(newExpense);
-});
+  db.query(
+    sql,
+    [
+      title,
+      Number(amount),
+      categoryName,
+      date,
+      req.params.id
+    ],
+    (err, result) => {
 
-// UPDATE expense
-router.put("/:id", (req, res) => {
-  const db = getDB();
+      if (err) {
+        console.error(err);
 
-  const index = db.expenses.findIndex(
-    item => item.id === Number(req.params.id)
+        return res.status(500).json({
+          message: "Error updating expense"
+        });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({
+          message: "Expense not found"
+        });
+      }
+
+      res.json({
+        id: Number(req.params.id),
+        title,
+        amount: Number(amount),
+        category: categoryName,
+        date
+      });
+    }
   );
-
-  if (index === -1) {
-    return res.status(404).json({
-      message: "Expense not found"
-    });
-  }
-
-  db.expenses[index] = {
-    ...db.expenses[index],
-    ...req.body,
-    amount: Number(req.body.amount)
-  };
-
-  saveDB(db);
-
-  res.json(db.expenses[index]);
 });
 
-// DELETE expense
+
+// =============================
+// DELETE EXPENSE
+// =============================
 router.delete("/:id", (req, res) => {
-  const db = getDB();
 
-  const index = db.expenses.findIndex(
-    item => item.id === Number(req.params.id)
-  );
+  const sql = "DELETE FROM expenses WHERE id = ?";
 
-  if (index === -1) {
-    return res.status(404).json({
-      message: "Expense not found"
+  db.query(sql, [req.params.id], (err, result) => {
+
+    if (err) {
+      console.error(err);
+
+      return res.status(500).json({
+        message: "Error deleting expense"
+      });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        message: "Expense not found"
+      });
+    }
+
+    res.json({
+      message: "Expense deleted successfully"
     });
-  }
-
-  const deleted = db.expenses.splice(index, 1);
-
-  saveDB(db);
-
-  res.json({
-    message: "Expense deleted",
-    expense: deleted[0]
   });
 });
 
-module.exports = router;   
+
+module.exports = router;

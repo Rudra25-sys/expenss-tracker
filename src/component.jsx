@@ -1,60 +1,122 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+const API = "http://localhost:5000/api/categories";
 
 const Categories = () => {
-  const [categories, setCategories] = useState([
-    { id: 1, name: "Salary", type: "Income", amount: 20000 },
-    { id: 2, name: "Food", type: "Expense", amount: 5000 },
-  ]);
+  const [categories, setCategories] = useState([]);
 
   const [name, setName] = useState("");
   const [type, setType] = useState("Expense");
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("");
 
-  const addCategory = (e) => {
+  // GET categories
+  const fetchCategories = async () => {
+    try {
+      const res = await fetch(API);
+      const data = await res.json();
+
+      setCategories(data);
+    } catch (error) {
+      console.error("Categories error:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  // ADD category
+  const addCategory = async (e) => {
     e.preventDefault();
 
-    if (!name.trim()) return;
+    if (!name.trim()) {
+      alert("Category name is required");
+      return;
+    }
 
-    const newCategory = {
-      id: Date.now(),
-      name,
-      type,
-      amount,
-    };
+    if (amount === "" || Number(amount) < 0) {
+      alert("Valid amount is required");
+      return;
+    }
 
-    setCategories([...categories, newCategory]);
+    try {
+      const res = await fetch(API, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          type,
+          amount: Number(amount),
+        }),
+      });
 
-    setName("");
-    setType("Expense");
-    setColor("#0d6efd");
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message);
+        return;
+      }
+
+      setCategories((prev) => [...prev, data]);
+
+      setName("");
+      setType("Expense");
+      setAmount("");
+    } catch (error) {
+      console.error("Add category error:", error);
+    }
   };
 
-  const deleteCategory = (id) => {
-    setCategories(categories.filter((item) => item.id !== id));
+  // DELETE category
+  const deleteCategory = async (id) => {
+    try {
+      const res = await fetch(`${API}/${id}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message);
+        return;
+      }
+
+      setCategories((prev) =>
+        prev.filter((item) => item.id !== id)
+      );
+    } catch (error) {
+      console.error("Delete category error:", error);
+    }
   };
+
+  const incomeCount = categories.filter(
+    (item) => item.type === "Income"
+  ).length;
+
+  const expenseCount = categories.filter(
+    (item) => item.type === "Expense"
+  ).length;
 
   return (
     <div>
       <h2>Categories</h2>
 
-      {/* Summary */}
       <div>
         <h4>Total Categories: {categories.length}</h4>
-        <h4>
-          Income: {categories.filter((item) => item.type === "Income").length}
-        </h4>
-        <h4>
-          Expense: {categories.filter((item) => item.type === "Expense").length}
-        </h4>
+        <h4>Income: {incomeCount}</h4>
+        <h4>Expense: {expenseCount}</h4>
       </div>
 
       <hr />
 
-      {/* Add Category Form */}
       <form onSubmit={addCategory}>
+        {/* Category Name */}
         <div>
           <label>Category Name</label>
           <br />
+
           <input
             type="text"
             placeholder="Enter category"
@@ -65,9 +127,11 @@ const Categories = () => {
 
         <br />
 
+        {/* Type */}
         <div>
           <label>Type</label>
           <br />
+
           <select
             value={type}
             onChange={(e) => setType(e.target.value)}
@@ -79,32 +143,41 @@ const Categories = () => {
 
         <br />
 
+        {/* Amount */}
         <div>
-          <label>Color</label>
+          <label>Amount</label>
           <br />
+
           <input
             type="number"
             placeholder="Enter amount"
             value={amount}
-            onChange={(e) => setAmount(Number(e.target.value))}
+            min="0"
+            step="0.01"
+            onChange={(e) => setAmount(e.target.value)}
           />
         </div>
 
         <br />
 
-        <button type="submit">Add Category</button>
+        <button type="submit">
+          Add Category
+        </button>
       </form>
 
       <hr />
 
-      {/* Category Table */}
-      <table border="1" cellPadding="8" cellSpacing="0">
+      <table
+        border="1"
+        cellPadding="8"
+        cellSpacing="0"
+      >
         <thead>
           <tr>
             <th>#</th>
             <th>Name</th>
             <th>Type</th>
-            <th>Color</th>
+            <th>Amount</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -113,20 +186,21 @@ const Categories = () => {
           {categories.map((item, index) => (
             <tr key={item.id}>
               <td>{index + 1}</td>
+
               <td>{item.name}</td>
+
               <td>{item.type}</td>
+
               <td>
-                <div
-                  style={{
-                    width: "20px",
-                    height: "20px",
-                    backgroundColor: item.color,
-                    borderRadius: "50%",
-                  }}
-                />
+                ₹{Number(item.amount || 0).toFixed(2)}
               </td>
+
               <td>
-                <button onClick={() => deleteCategory(item.id)}>
+                <button
+                  onClick={() =>
+                    deleteCategory(item.id)
+                  }
+                >
                   Delete
                 </button>
               </td>
@@ -135,7 +209,9 @@ const Categories = () => {
 
           {categories.length === 0 && (
             <tr>
-              <td colSpan="5">No categories found.</td>
+              <td colSpan="5">
+                No categories found.
+              </td>
             </tr>
           )}
         </tbody>

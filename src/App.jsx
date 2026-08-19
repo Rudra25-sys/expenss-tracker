@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import Dashboard from "./dashboard";
 import Income from "./income";
@@ -10,6 +10,24 @@ import Report from "./report";
 import Register from "./register";
 function App() {
   const [page, setPage] = useState("home");
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("currentUser");
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (error) {
+        console.error("Error parsing user:", error);
+      }
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("currentUser");
+    setUser(null);
+    setPage("home");
+  };
 
   return (
     <div className="app">
@@ -26,8 +44,17 @@ function App() {
             <li onClick={() => setPage("income")}>💰 Income</li>
             <li onClick={() => setPage("categories")}>📂 Categories</li>
             <li onClick={()=> setPage("report")}>📊 Reports</li>
-            <li>⚙️ Settings</li>
           </ul>
+
+          {user && (
+            <div className="sidebar-user">
+              <hr />
+              <p className="user-name">👤 {user.name}</p>
+              <button className="logout-btn" onClick={handleLogout}>
+                Logout
+              </button>
+            </div>
+          )}
         </aside>
       )}
 

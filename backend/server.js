@@ -5,14 +5,15 @@ const dashboardRoutes = require("./dashboard");
 const incomeRoutes = require("./incame");
 const expenseRoutes = require("./expenss");
 const categoryRoutes = require("./categorie");
-const registerRoutes=require("./register");
+const registerRoutes = require("./register");
+
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use("/api/register",registerRoutes);
+app.use("/api/register", registerRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/income", incomeRoutes);
 app.use("/api/expenses", expenseRoutes);

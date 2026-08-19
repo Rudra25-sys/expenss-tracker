@@ -1,0 +1,169 @@
+/* =========================================================
+   LOGIN & REGISTER CONTAINER
+========================================================= */
+
+.container {
+  width: 90%;
+  margin: 30px auto;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* =========================================================
+   LOGIN & REGISTER CARD
+========================================================= */
+
+.container .card {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.container .card h2 {
+  text-align: center;
+  color: #222;
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+.container .card input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  background: #f9f9f9;
+  color: #222;
+}
+
+.container .card input:focus {
+  outline: none;
+  border-color: #0d6efd;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+}
+
+.container .card input::placeholder {
+  color: #999;
+}
+
+.container .card button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+}
+
+.container .card button:hover:not(.link-btn) {
+  background: linear-gradient(135deg, #0b5ed7, #084298);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(13, 110, 253, 0.4);
+}
+
+.container .card button:active:not(.link-btn) {
+  transform: translateY(0);
+}
+
+.container .card p {
+  text-align: center;
+  margin-top: 20px;
+  color: #666;
+  font-size: 14px;
+}
+
+.container .card .link-btn {
+  width: auto;
+  padding: 0;
+  margin: 0;
+  background: none;
+  color: #0d6efd;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: none;
+}
+
+.container .card .link-btn:hover {
+  color: #0b5ed7;
+  text-decoration: underline;
+  transform: none;
+  box-shadow: none;
+}
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+  .container {
+    width: 95%;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .container .card {
+    padding: 25px 20px;
+    max-width: 100%;
+  }
+
+  .container .card h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .container .card input {
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    font-size: 13px;
+  }
+
+  .container .card button {
+    padding: 10px;
+    margin-top: 12px;
+    font-size: 14px;
+  }
+
+  .container .card p {
+    margin-top: 15px;
+    font-size: 12px;
+  }
+
+  .container .card .link-btn {
+    font-size: 12px;
+  }
+}

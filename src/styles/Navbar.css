@@ -1,0 +1,170 @@
+/* =========================================================
+   NAVBAR STYLES
+========================================================= */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #111827, #1f2937);
+  color: #fff;
+  padding: 16px 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #4ade80;
+}
+
+.navbar-menu {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.navbar-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.navbar-link:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+}
+
+.navbar-link.active {
+  background: #0d6efd;
+  font-weight: bold;
+}
+
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-logout {
+  background: #dc2626;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.navbar-logout:hover {
+  background: #b91c1c;
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   RESPONSIVE - TABLET
+========================================================= */
+
+@media (max-width: 992px) {
+  .navbar {
+    padding: 12px 20px;
+  }
+
+  .navbar-logo {
+    font-size: 18px;
+  }
+
+  .navbar-menu {
+    gap: 12px;
+  }
+
+  .navbar-link {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 12px 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .navbar-logo {
+    font-size: 16px;
+  }
+
+  .navbar-menu {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .navbar-link {
+    padding: 5px 8px;
+    font-size: 11px;
+  }
+
+  .navbar-user {
+    gap: 8px;
+  }
+
+  .navbar-logout {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE - SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 10px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar-logo {
+    font-size: 14px;
+    margin-bottom: 8px;
+    width: 100%;
+  }
+
+  .navbar-menu {
+    gap: 6px;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .navbar-link {
+    padding: 4px 6px;
+    font-size: 10px;
+  }
+
+  .navbar-user {
+    gap: 6px;
+    width: 100%;
+  }
+
+  .navbar-logout {
+    padding: 5px 10px;
+    font-size: 10px;
+    width: 100%;
+    text-align: center;
+  }
+}

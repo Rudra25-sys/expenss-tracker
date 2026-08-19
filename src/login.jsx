@@ -1,74 +1,75 @@
-
 import { useState } from "react";
 
-const users = [
-  {
-    email: "test@gmail.com",
-    password: "1234"
-  }
-];
 
 function Login({ setPage }) {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
+    if (!email || !password) {
+      alert("Email and password are required");
+      return;
+    }
 
-    const user = users.find(
-      (u) => u.email === email && u.password === password
-    );
-
-    if (user) {
-      alert("Login Successful");
-
-      localStorage.setItem(
-        "currentUser",
-        JSON.stringify(user)
+    try {
+      const res = await fetch(
+        "http://localhost:5000/api/register/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ email, password })
+        }
       );
 
-      setPage("dashboard");
+      const data = await res.json();
 
-    } else {
-      alert("Invalid Email or Password");
+      if (!res.ok) {
+        alert(data.message);
+        return;
+      }
+
+      alert("Login Successful");
+
+      localStorage.setItem("currentUser", JSON.stringify(data.user));
+      setPage("dashboard");
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Server error");
     }
   };
 
   return (
-    <div>
+    <div className="container">
+      <div className="card">
+        <h2>Login</h2>
 
-      <h2>Login</h2>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-      <input
-        type="email"
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-      <br /><br />
+        <button onClick={handleLogin}>Login</button>
 
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-
-      <br /><br />
-
-      <button onClick={handleLogin}>
-        Login
-      </button>
-
-      <p>
-        Don't have an account?
-        <button onClick={() => setPage("register")}>
-          Register
-        </button>
-      </p>
-
+        <p>
+          Don't have an account?{" "}
+          <button className="link-btn" onClick={() => setPage("register")}>
+            Register
+          </button>
+        </p>
+      </div>
     </div>
   );
 }
 
 export default Login;
-

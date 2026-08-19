@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "id": 1786980790641,
+    "username": "Rudra",
+    "email": "Rudra@25",
+    "password": "Rudra@25"
+  },
+  {
+    "id": 1786980839238,
+    "username": "Shivam",
+    "email": "Shivam@25",
+    "password": "Shivam@25"
+  },
+  {
+    "id": 1787030096860,
+    "username": "Satyam",
+    "email": "Satyam@25",
+    "password": "Satyam@25"
+  },
+  {
+    "id": 1787072595754,
+    "username": "Ram",
+    "email": "Ram@25",
+    "password": "Ram@25"
+  }
+]
