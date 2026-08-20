@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 
-function Login({ setPage }) {
+function Login({ setPage, setUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -33,6 +33,7 @@ function Login({ setPage }) {
       alert("Login Successful");
 
       localStorage.setItem("currentUser", JSON.stringify(data.user));
+      setUser(data.user);
       setPage("dashboard");
     } catch (error) {
       console.error("Login error:", error);
@@ -60,6 +61,10 @@ function Login({ setPage }) {
         />
 
         <button onClick={handleLogin}>Login</button>
+
+        <button className="link-btn" onClick={() => setPage("forgot-password")}>
+          Forgot password?
+        </button>
 
         <p>
           Don't have an account?{" "}

@@ -8,6 +8,8 @@ import Home from "./home";
 import Login from "./login";
 import Report from "./report";
 import Register from "./register";
+import VerifyOtp from "./verifyOtp";
+import ForgotPassword from "./forgotPassword";
 function App() {
   const [page, setPage] = useState("home");
   const [user, setUser] = useState(null);
@@ -17,6 +19,7 @@ function App() {
     if (storedUser) {
       try {
         setUser(JSON.parse(storedUser));
+        setPage("dashboard");
       } catch (error) {
         console.error("Error parsing user:", error);
       }
@@ -49,7 +52,7 @@ function App() {
           {user && (
             <div className="sidebar-user">
               <hr />
-              <p className="user-name">👤 {user.name}</p>
+              <p className="user-name">👤 {user.username || user.name}</p>
               <button className="logout-btn" onClick={handleLogout}>
                 Logout
               </button>
@@ -64,8 +67,10 @@ function App() {
         {page === "income" && <Income />}
         {page === "expenses" && <Expenses />}
         {page === "categories" && <Categories />}
-        {page === "login" && <Login setPage={setPage} />}
+        {page === "login" && <Login setPage={setPage} setUser={setUser} />}
         {page === "register" && <Register setPage={setPage} />}
+        {page === "verify-otp" && <VerifyOtp setPage={setPage} />}
+        {page === "forgot-password" && <ForgotPassword setPage={setPage} />}
         {page==="report"&& <Report setPage={setPage}/>}
       </main>
 

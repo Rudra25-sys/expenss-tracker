@@ -54,8 +54,6 @@ function Income() {
         )}
       </div>
 
-      {/* Add Income */}
-      <button className="add-income-btn">Add Income</button>
 
       {/* Income List */}
       <div className="income-list">

@@ -1,5 +1,9 @@
 # React + Vite
 
+## Gmail OTP setup
+
+Copy `backend/.env.example` to `backend/.env`, then set `GMAIL_USER` and a Gmail App Password in it. Gmail requires 2-Step Verification before an App Password can be created. Start the backend from the `backend` directory so registration verification and password-reset emails can be sent.
+
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
 Currently, two official plugins are available:

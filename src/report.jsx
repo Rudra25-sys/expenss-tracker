@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { jsPDF } from "jspdf";
 import "./styles/Reports.css";
 
 const INCOME_API =
@@ -7,9 +8,13 @@ const INCOME_API =
 const EXPENSE_API =
   "http://localhost:5000/api/expenses";
 
+const CATEGORY_API =
+  "http://localhost:5000/api/categories";
+
 function Reports() {
   const [income, setIncome] = useState([]);
   const [expenses, setExpenses] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -17,6 +22,7 @@ function Reports() {
         fetch(INCOME_API),
         fetch(EXPENSE_API)
       ]);
+      const categoryRes = await fetch(CATEGORY_API);
 
       if (!incomeRes.ok) {
         throw new Error("Failed to fetch income");
@@ -26,15 +32,22 @@ function Reports() {
         throw new Error("Failed to fetch expenses");
       }
 
+      if (!categoryRes.ok) {
+        throw new Error("Failed to fetch categories");
+      }
+
       const incomeData = await incomeRes.json();
       const expenseData = await expenseRes.json();
+      const categoryData = await categoryRes.json();
 
       setIncome(Array.isArray(incomeData) ? incomeData : []);
       setExpenses(Array.isArray(expenseData) ? expenseData : []);
+      setCategories(Array.isArray(categoryData) ? categoryData : []);
     } catch (error) {
       console.error("Reports error:", error);
       setIncome([]);
       setExpenses([]);
+      setCategories([]);
     }
   };
 
@@ -43,20 +56,36 @@ function Reports() {
   }, []);
 
   const totalIncome = useMemo(() => {
-    return income.reduce(
+    const transactionIncome = income.reduce(
       (total, item) =>
         total + Number(item.amount),
       0
     );
-  }, [income]);
+
+    const categoryIncome = categories.reduce(
+      (total, item) =>
+        item.type === "Income" ? total + Number(item.amount || 0) : total,
+      0
+    );
+
+    return transactionIncome + categoryIncome;
+  }, [income, categories]);
 
   const totalExpense = useMemo(() => {
-    return expenses.reduce(
+    const transactionExpense = expenses.reduce(
       (total, item) =>
         total + Number(item.amount),
       0
     );
-  }, [expenses]);
+
+    const categoryExpense = categories.reduce(
+      (total, item) =>
+        item.type === "Expense" ? total + Number(item.amount || 0) : total,
+      0
+    );
+
+    return transactionExpense + categoryExpense;
+  }, [expenses, categories]);
 
   const savings = totalIncome - totalExpense;
 
@@ -81,9 +110,16 @@ function Reports() {
         Number(item.amount || 0);
     });
 
+    categories.forEach((item) => {
+      if (item.type === "Expense") {
+        result[item.name] =
+          (result[item.name] || 0) + Number(item.amount || 0);
+      }
+    });
+
     return Object.entries(result)
       .sort((a, b) => b[1] - a[1]);
-  }, [expenses]);
+  }, [expenses, categories]);
 
   const incomeCategoryTotals = useMemo(() => {
     const result = {};
@@ -96,14 +132,86 @@ function Reports() {
         Number(item.amount || 0);
     });
 
+    categories.forEach((item) => {
+      if (item.type === "Income") {
+        result[item.name] =
+          (result[item.name] || 0) + Number(item.amount || 0);
+      }
+    });
+
     return Object.entries(result)
       .sort((a, b) => b[1] - a[1]);
-  }, [income]);
+  }, [income, categories]);
 
   const formatMoney = (amount) => {
     return `₹${Number(amount).toLocaleString(
       "en-IN"
     )}`;
+  };
+
+  const downloadReport = () => {
+    try {
+      const pdf = new jsPDF();
+      const generatedAt = new Date().toLocaleDateString("en-IN");
+      let y = 20;
+
+      pdf.setFontSize(22);
+      pdf.text("Expense Tracker Report", 20, y);
+      y += 10;
+
+      pdf.setFontSize(11);
+      pdf.setTextColor(100);
+      pdf.text(`Generated: ${generatedAt}`, 20, y);
+      y += 14;
+
+      pdf.setTextColor(0);
+      pdf.setFontSize(13);
+      pdf.text(`Total Income: ${formatMoney(totalIncome)}`, 20, y);
+      pdf.text(`Total Expense: ${formatMoney(totalExpense)}`, 110, y);
+      y += 8;
+      pdf.text(`Total Savings: ${formatMoney(savings)}`, 20, y);
+      pdf.text(`Spend Rate: ${spendingRate}%`, 110, y);
+      y += 16;
+
+      const addCategorySection = (title, entries) => {
+        if (y > 260) {
+          pdf.addPage();
+          y = 20;
+        }
+
+        pdf.setFontSize(15);
+        pdf.text(title, 20, y);
+        y += 9;
+        pdf.setFontSize(11);
+
+        if (entries.length === 0) {
+          pdf.text("No data found.", 20, y);
+          y += 10;
+          return;
+        }
+
+        entries.forEach(([category, amount]) => {
+          if (y > 280) {
+            pdf.addPage();
+            y = 20;
+          }
+
+          pdf.text(category, 20, y);
+          pdf.text(formatMoney(amount), 150, y);
+          y += 7;
+        });
+
+        y += 8;
+      };
+
+      addCategorySection("Income by Category", incomeCategoryTotals);
+      addCategorySection("Expenses by Category", categoryTotals);
+
+      pdf.save("expense-tracker-report.pdf");
+    } catch (error) {
+      console.error("Report download error:", error);
+      alert("Unable to download the report. Please try again.");
+    }
   };
 
   return (
@@ -119,7 +227,7 @@ function Reports() {
             <option>This Year</option>
           </select>
 
-          <button>
+          <button type="button" onClick={downloadReport}>
             📥 Download PDF
           </button>
         </div>

@@ -41,8 +41,9 @@ function Register({ setPage }) {
         return;
       }
 
-      alert("Registration Successful");
-      setPage("login");
+      sessionStorage.setItem("verificationEmail", data.email);
+      alert("A verification code was sent to your email");
+      setPage("verify-otp");
     } catch (error) {
       console.error("Registration error:", error);
       alert("Server error");

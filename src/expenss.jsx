@@ -55,9 +55,6 @@ function Expenses() {
         )}
       </div>
 
-      {/* Add Expense Button */}
-      <button className="add-expense-btn">Add Expense</button>
-
       {/* Expense List */}
       <div className="expense-list">
         {expenses.map((expense) => (
