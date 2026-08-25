@@ -3,7 +3,7 @@
     "id": 1786980790641,
     "username": "Rudra",
     "email": "Rudra@25",
-    "password": "Rudra@25"
+    "password": "$2b$12$N7wsTYlDNfuoGHGOVwVmkObojCRwnHv8ov9T/ow1x1TW1oW.6YywK"
   },
   {
     "id": 1786980839238,
@@ -28,5 +28,19 @@
     "username": "Raj",
     "email": "Raj@25",
     "password": "Raj@25"
+  },
+  {
+    "id": 1787666727943,
+    "username": "Rahul",
+    "email": "roashab@25gmail.com",
+    "password": "$2b$12$m5yyZEOjAziJafj.pB0GCeB2lAaBxrVi1tRFubyXty8itHGQ1sB8u",
+    "verified": true
+  },
+  {
+    "id": 1787666839072,
+    "username": "Karan@25",
+    "email": "Karan@25",
+    "password": "$2b$12$OKi9T9ptORDfj9UqMiDyw.IquyyFoMSsktomAGH8iVCaS.4Cm8l0S",
+    "verified": true
   }
 ]

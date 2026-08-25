@@ -8,7 +8,7 @@ import Home from "./home";
 import Login from "./login";
 import Report from "./report";
 import Register from "./register";
-import VerifyOtp from "./verifyOtp";
+import SetPassword from "./setPassword";
 import ForgotPassword from "./forgotPassword";
 function App() {
   const [page, setPage] = useState("home");
@@ -69,7 +69,7 @@ function App() {
         {page === "categories" && <Categories />}
         {page === "login" && <Login setPage={setPage} setUser={setUser} />}
         {page === "register" && <Register setPage={setPage} />}
-        {page === "verify-otp" && <VerifyOtp setPage={setPage} />}
+        {page === "set-password" && <SetPassword setPage={setPage} />}
         {page === "forgot-password" && <ForgotPassword setPage={setPage} />}
         {page==="report"&& <Report setPage={setPage}/>}
       </main>

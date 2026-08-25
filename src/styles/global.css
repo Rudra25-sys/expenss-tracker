@@ -360,3 +360,188 @@ table button:hover {
 .summary div:nth-child(3) {
   background: #dc3545;
 }
+
+/* =========================================================
+   RESPONSIVE LAYOUT
+========================================================= */
+
+@media (max-width: 1100px) {
+  .sidebar {
+    width: 220px;
+    padding: 18px;
+  }
+
+  .main {
+    min-width: 0;
+    padding: 16px;
+  }
+
+  .hero {
+    gap: 30px;
+    padding: 40px 30px;
+  }
+
+  .hero-image img {
+    width: min(300px, 35vw);
+  }
+}
+
+@media (max-width: 768px) {
+  .app {
+    display: block;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+    padding: 14px 16px;
+  }
+
+  .sidebar h2 {
+    margin-bottom: 12px;
+    font-size: 20px;
+  }
+
+  .sidebar ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .sidebar li {
+    padding: 10px 8px;
+    text-align: center;
+    font-size: 13px;
+  }
+
+  .sidebar-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .sidebar-user hr {
+    display: none;
+  }
+
+  .sidebar-user p {
+    margin: 0;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sidebar-user .logout-btn {
+    width: auto;
+    padding: 8px 14px;
+  }
+
+  .main {
+    width: 100%;
+    padding: 12px;
+  }
+
+  header {
+    padding: 14px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .income-container,
+  .expense-container,
+  .dashboard,
+  .profile-container,
+  .reports {
+    min-height: auto;
+  }
+
+  form {
+    max-width: 100%;
+    padding: 16px;
+  }
+
+  input[type="number"] {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .hero {
+    min-height: auto;
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .hero-content h1 {
+    font-size: 2.25rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .hero-image img {
+    width: min(280px, 75vw);
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+    padding: 35px 20px;
+  }
+
+  .profile-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .table-wrapper {
+    margin-inline: -4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    padding: 12px;
+  }
+
+  .sidebar h2 {
+    font-size: 18px;
+  }
+
+  .sidebar ul {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .sidebar li {
+    padding: 9px 4px;
+    font-size: 11px;
+  }
+
+  .main {
+    padding: 8px;
+  }
+
+  header {
+    align-items: flex-start;
+  }
+
+  .hero-content h1 {
+    font-size: 1.9rem;
+  }
+
+  .primary-btn {
+    width: 100%;
+  }
+
+  .chart-box,
+  .chart-container {
+    height: 220px;
+    font-size: 22px;
+  }
+
+  table {
+    min-width: 520px;
+  }
+}

@@ -14,9 +14,8 @@ function VerifyOtp({ setPage }) {
       });
       const data = await res.json();
       if (!res.ok) return alert(data.message);
-      sessionStorage.removeItem("verificationEmail");
       alert(data.message);
-      setPage("login");
+      setPage("set-password");
     } catch (error) {
       console.error("Verification error:", error);
       alert("Server error");
@@ -26,8 +25,8 @@ function VerifyOtp({ setPage }) {
   return <div className="container"><div className="card">
     <h2>Verify Email</h2>
     <p>Enter the code sent to {email}.</p>
-    <input value={otp} onChange={(event) => setOtp(event.target.value)} placeholder="6-digit code" maxLength="6" />
-    <button onClick={verify}>Verify account</button>
+    <input value={otp} onChange={(event) => setOtp(event.target.value)} placeholder="6-digit code" maxLength="6" inputMode="numeric" autoFocus />
+    <button onClick={verify}>Verify email</button>
     <p><button className="link-btn" onClick={() => setPage("login")}>Back to login</button></p>
   </div></div>;
 }

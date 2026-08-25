@@ -1,6 +1,5 @@
-import { useState } from "react";
 import "./styles/Auth.css";
-
+import { useState } from "react";
 
 function Register({ setPage }) {
   const [user, setUser] = useState({
@@ -24,72 +23,71 @@ function Register({ setPage }) {
 
     try {
       const res = await fetch(
-        "http://localhost:5000/api/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(user)
-        }
-      );
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        alert(data.message);
-        return;
-      }
-
-      sessionStorage.setItem("verificationEmail", data.email);
-      alert("A verification code was sent to your email");
-      setPage("verify-otp");
-    } catch (error) {
-      console.error("Registration error:", error);
-      alert("Server error");
-    }
-  };
-
-  return (
-    <div className="container">
-      <div className="card">
-        <h2>Register</h2>
-
-        <input
-          type="text"
-          name="username"
-          placeholder="Name"
-          value={user.username}
-          onChange={handleChange}
-        />
-
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={user.email}
-          onChange={handleChange}
-        />
-
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={user.password}
-          onChange={handleChange}
-        />
-
-        <button onClick={handleRegister}>Register</button>
-
-        <p>
-          Already have an account?{" "}
-          <button className="link-btn" onClick={() => setPage("login")}>
-            Login
-          </button>
-        </p>
-      </div>
-    </div>
-  );
-}
+        "http://localhost:5000/api/register", 
+        { 
+          method: "POST", 
+          headers: { 
+            "Content-Type": "application/json" 
+          }, 
+          body: JSON.stringify(user) 
+        } 
+      ); 
+ 
+      const data = await res.json(); 
+ 
+      if (!res.ok) { 
+        alert(data.message); 
+        return; 
+      } 
+ 
+      alert(data.message);
+      setPage("login");
+    } catch (error) { 
+      console.error("Registration error:", error); 
+      alert("Server error"); 
+    } 
+  }; 
+ 
+  return ( 
+    <div className="container"> 
+      <div className="card"> 
+        <h2>Register</h2> 
+ 
+        <input 
+          type="text" 
+          name="username" 
+          placeholder="Name" 
+          value={user.username} 
+          onChange={handleChange} 
+        /> 
+ 
+      
+        <input 
+          type="password" 
+          name="password" 
+          placeholder="Password" 
+          value={user.password} 
+          onChange={handleChange} 
+        /> 
+   <input 
+          type="email" 
+          name="email" 
+          placeholder="Email" 
+          value={user.email} 
+          onChange={handleChange} 
+        /> 
+ 
+        <button onClick={handleRegister}>Register</button> 
+ 
+        <p> 
+          Already have an account?{" "} 
+          <button className="link-btn" onClick={() => setPage("login")}> 
+            Login 
+          </button> 
+        </p> 
+      </div> 
+    </div> 
+  ); 
+} 
 
 export default Register;
