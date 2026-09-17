@@ -3,10 +3,6 @@ const db = require("./db");
 
 const router = express.Router();
 
-
-// =============================
-// DASHBOARD SUMMARY
-// =============================
 router.get("/", (req, res) => {
 
   const incomeSql = `

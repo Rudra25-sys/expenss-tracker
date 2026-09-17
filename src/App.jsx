@@ -10,6 +10,8 @@ import Report from "./report";
 import Register from "./register";
 import SetPassword from "./setPassword";
 import ForgotPassword from "./forgotPassword";
+import Debt from "./debt";
+
 function App() {
   const [page, setPage] = useState("home");
   const [user, setUser] = useState(null);
@@ -45,6 +47,7 @@ function App() {
             <li onClick={() => setPage("dashboard")}>📊 Dashboard</li>
             <li onClick={() => setPage("expenses")}>💸 Expenses</li>
             <li onClick={() => setPage("income")}>💰 Income</li>
+              <li onClick={()=>{setPage("debt")}}>💳Debt</li>
             <li onClick={() => setPage("categories")}>📂 Categories</li>
             <li onClick={()=> setPage("report")}>📊 Reports</li>
           </ul>
@@ -66,6 +69,7 @@ function App() {
         {page === "dashboard" && <Dashboard />}
         {page === "income" && <Income />}
         {page === "expenses" && <Expenses />}
+        {page === "debt" &&<Debt />}
         {page === "categories" && <Categories />}
         {page === "login" && <Login setPage={setPage} setUser={setUser} />}
         {page === "register" && <Register setPage={setPage} />}
