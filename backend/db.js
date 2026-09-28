@@ -1,18 +1,20 @@
 const mysql = require("mysql2");
 
 const adminConnection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "Rudra@25",
-  multipleStatements: true
+  host:process.env.DB_HOST,
+  port:process.env.DB_PORT||3306,
+  user:process.env.DB_USER,
+password:process.env.DB_PASSWORD,
+multipleStatements:true   
 });
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "Rudra@25",
-  database: "expense_tracker",
-  multipleStatements: true
+host:process.env.DB_HOST,
+  port:process.env.DB_PORT||3306,
+  user:process.env.DB_USER,
+password:process.env.DB_PASSWORD,
+database:process.env.DB_NAME,
+multipleStatements:true   
 });
 
 const tableQueries = [
